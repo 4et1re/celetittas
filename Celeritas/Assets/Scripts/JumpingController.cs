@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class JumpingController : MonoBehaviour
 {
-    bool isGrounded = false;
     int DoubleJump = 2;
     Rigidbody2D rb;        
     public float jumpForce = 6;     
@@ -17,7 +16,7 @@ public class PlayerController : MonoBehaviour
     {
         if (col.tag == "Ground")
         {
-            isGrounded = true;
+            
             DoubleJump = 2;
         }
     }
@@ -25,7 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         if (col.tag == "Ground")
         {
-            isGrounded = false;
+            
             
         }
     }
