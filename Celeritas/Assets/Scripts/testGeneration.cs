@@ -71,7 +71,12 @@ public class testGeneration : MonoBehaviour
 
         }
 
+        TEst();
 
+    }
 
+    void TEst()
+    {
+       
     }
 }

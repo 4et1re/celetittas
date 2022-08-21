@@ -6,7 +6,6 @@ public class Chunk : MonoBehaviour
 {
     public Transform Begin;
     public Transform End;
-    public Vector2 direction;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +15,6 @@ public class Chunk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(direction);
+        
     }
 }

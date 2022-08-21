@@ -31,7 +31,7 @@ public class ChunkPlacer : MonoBehaviour
     private void SpawnChunk()
     {
         Chunk newChunk = Instantiate(ChunkPrefabs[Random.Range(0, ChunkPrefabs.Length)]);
-        newChunk.transform.position = spawnedChunks[spawnedChunks.Count - 1].End.position - newChunk.Begin.localPosition;
+        newChunk.transform.position = spawnedChunks[spawnedChunks.Count - 1].End.position;
         spawnedChunks.Add(newChunk);
 
         if(spawnedChunks.Count > 10)
