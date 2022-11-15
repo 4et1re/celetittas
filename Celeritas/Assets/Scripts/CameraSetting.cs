@@ -3,35 +3,18 @@ using System.Collections;
 
 public class CameraSetting : MonoBehaviour
 {
+    public Transform target;
+    public float speed;
 
-	public float interpVelocity;
-	public float minDistance;
-	public float followDistance;
-	public GameObject target;
-	public Vector3 offset;
-	Vector3 targetPos;
-	// Use this for initialization
-	void Start()
-	{
-		targetPos = transform.position;
-	}
+    // Use this for initialization
+    void Start()
+    {
+    }
 
-	// Update is called once per frame
-	void FixedUpdate()
-	{
-		if (target)
-		{
-			Vector3 posNoZ = transform.position;
-			posNoZ.z = target.transform.position.z;
-
-			Vector3 targetDirection = (target.transform.position - posNoZ);
-
-			interpVelocity = targetDirection.magnitude * 10f;
-
-			targetPos = transform.position + (targetDirection.normalized * interpVelocity * Time.deltaTime);
-
-			transform.position = Vector3.Lerp(transform.position, targetPos + offset, 0.25f);
-
-		}
-	}
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        //transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        transform.position =  Vector3.Lerp(transform.position, target.position, speed * Time.deltaTime);
+    }
 }

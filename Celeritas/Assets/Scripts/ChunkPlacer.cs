@@ -22,7 +22,7 @@ public class ChunkPlacer : MonoBehaviour
     {
 
         
-        if(Player.position.x > spawnedChunks[spawnedChunks.Count - 1].End.position.x - 10)
+        if(Player.position.x > spawnedChunks[spawnedChunks.Count - 1].End.position.x - 20)
         {
             SpawnChunk();
         }

@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
 
     int DoubleJump = 2;
     public float jumpForce = 6f;
+    private bool isJumping = false;
+    private bool isPodkat = false;
+    private double maxPosY = 0;
 
     [Space]
 
@@ -28,12 +31,17 @@ public class PlayerController : MonoBehaviour
 
     [Space]
 
+    private float podkatSpeed;
     public BoxCollider2D stayCol;
     public BoxCollider2D sitCol;
     public float podkatPower;
     public float podkatTime;
     public Transform playerSprite;
-   // public Transform playerSprite;
+    // public Transform playerSprite;
+
+    [Space]
+
+    [SerializeField] Animator animator;
  
     #endregion 
     // змінні
@@ -70,12 +78,26 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        print(isPodkat);
+
+        if(isPodkat == true)
+        {
+            animator.SetTrigger("isPodkat");
+        }else
+        {
+            animator.SetInteger("VelocityY", Mathf.RoundToInt(_rb.velocity.y));
+        }
+       
         movementLogic();
         
         void movementLogic()
         {
             _rb.velocity = new Vector2(1f * moveSpeed, _rb.velocity.y); // постійний рух вправо
+            
+
         }
+
+        TestSpeed();
     }
 
 
@@ -98,6 +120,7 @@ public class PlayerController : MonoBehaviour
         {
             jumpingLogic();
 
+            animator.SetTrigger("Jump");
         }
 
         if (dir == Vector2.down)
@@ -143,13 +166,28 @@ public class PlayerController : MonoBehaviour
         {
 
             DoubleJump = 2;
+
+            maxPosY = 0;
+            animator.SetBool("Running", true);
+
+            
         }
     }
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.tag == "Ground")
         {
+            if (maxPosY <= transform.position.y)
+            {
+                maxPosY = transform.position.y;
+            }
 
+            else
+            { 
+                print(maxPosY);
+                animator.SetBool("AfterJump", true);
+            }
+               
 
         }
     }
@@ -160,12 +198,20 @@ public class PlayerController : MonoBehaviour
     #region jumpingLogic
     private void jumpingLogic()
     {
+        isJumping = true;
+       
         if (DoubleJump > 0)
         {
             _rb.velocity = Vector2.up * jumpForce;
             DoubleJump--;
         }
+        
+
+        isJumping = false;
+        
     }
+
+
 
     #endregion
     // логіка стрибка
@@ -174,26 +220,38 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PodkatLogic()
     {
-        moveSpeed /= podkatPower;
+        isPodkat = true;
+        
 
-        playerSprite.transform.localScale = new Vector2(1f, 0.5f);
-        playerSprite.transform.localPosition = new Vector2(0f, -0.25f);
+        moveSpeed = (10f - moveSpeed) * 0.5f;
 
-        sitCol.enabled = true;
         stayCol.enabled = false;
+        sitCol.enabled = true;
+
+ //       stayCol.size = new Vector2(1f, 0.5f);
 
         yield return new WaitForSeconds(podkatTime);
 
-        playerSprite.transform.localScale = new Vector2(1f, 1f);
-        playerSprite.transform.localPosition = new Vector2(0f, 0.25f);
-
-        stayCol.enabled = true;
         sitCol.enabled = false;
+        stayCol.enabled = true;
+  //      stayCol.size = new Vector2(1f, 2f);
+
 
         moveSpeed = baseSpeed;
 
+        
+        isPodkat = false;
+
     }
 
+    IEnumerator TestSpeed()
+    {
+        for (int i = 5; i < 0; i--)
+        {
+            yield return new WaitForSeconds(2);
+            print(i);
+        }
+    }
 
     #endregion
 
